@@ -55,7 +55,7 @@ So far , yes there are but it is to hopefully create website or gradio to make t
 
 
 ## Thanks:
-I would like to thank Motu Hira for creatig this tutorial on Forced Alignment using Wav2Vec2. Without this, the subtitles would not be able to work (the original plan was to use CMUSphinx but the lack of community support made it difficult for me to work with)
+I would like to thank Motu Hira for creating this tutorial on Forced Alignment using Wav2Vec2. Without this, the subtitles would not be able to work (the original plan was to use CMUSphinx but the lack of community support made it difficult for me to work with)
 
 Here is the original Tutorial if anyone is interested: 
 
