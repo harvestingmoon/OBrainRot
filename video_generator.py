@@ -4,6 +4,7 @@ import subprocess
 def trim_video(input_path, output_path, duration=10):
     command = [
         'ffmpeg',
+        '-y',
         '-i', input_path,  # Input file
         '-t', str(duration),  # Duration to trim (in seconds)
         '-c', 'copy',  # Copy codec (no re-encoding)

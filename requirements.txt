@@ -1,0 +1,7 @@
+torch==2.5.0
+torchaudio==2.5.0
+flask
+IPython
+groq
+TTS
+requests
