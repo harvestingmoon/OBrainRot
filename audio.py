@@ -19,6 +19,7 @@ def audio(text_file_path, file_path="audio/output.wav", speaker_wav="assets/trum
 def convert_audio(input_path, output_path):
     command = [
         'ffmpeg',
+        '-y',
         '-i', input_path,  # Input file
         '-ac', '1',  # Set number of audio channels to 1 (mono)
         '-ar', '16000',  # Set audio sampling rate to 16kHz

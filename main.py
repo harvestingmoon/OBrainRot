@@ -53,4 +53,4 @@ def main(reddit_url, llm  = False, scraped_url = 'texts/scraped_url.txt', output
     print("DONE! SAVED AT " + output_path)
 
 if __name__ == "__main__":
-    main("https://www.reddit.com/r/askSingapore/", llm = True)
+    main("https://www.reddit.com/r/confession/comments/1ja2f08/i_am_exploiting_my_employer_and_i_have_never_been/", llm = False)
