@@ -5,3 +5,7 @@ IPython
 groq
 TTS
 requests
+transformers 
+accelerate
+celery
+redis
