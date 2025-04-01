@@ -9,3 +9,4 @@ transformers
 accelerate
 celery
 redis
+dotenv

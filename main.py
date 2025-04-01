@@ -4,7 +4,9 @@ from force_alignment import *
 from dict import * 
 from video_generator import * 
 from search import *
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 def main(reddit_url, llm  = False, scraped_url = 'texts/scraped_url.txt', output_pre = 'texts/processed_output.txt', \
           final_output = 'texts/oof.txt',speech_final = 'audio/output_converted.wav', subtitle_path = 'texts/testing.ass', \
             output_path = 'final/final.mp4',speaker_wav="assets/default.mp3", video_path = 'assets/subway.mp4'):
@@ -16,7 +18,7 @@ def main(reddit_url, llm  = False, scraped_url = 'texts/scraped_url.txt', output
         print("-------------------")
         reddit_scrape = scrape_llm(reddit_url)
         text = vader(reddit_scrape)
-        api = input("Please input the API key\n")
+        api = os.getenv('GROQ_API_KEY')
         map_request= groq(text, api) 
     print(map_request)
     save_map_to_txt(map_request,scraped_url)
