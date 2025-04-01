@@ -2,10 +2,10 @@
 ![Logo](images/logo.jpg) 
 <Created with Imagen 3>
 
-## Updates:
+# Updates:
 Thank you everyone for the support so far albeit the r/learnmachinelearning && r/machinelearning community! In short here are some future updates I would be doing overtime
 1. Readjusting the text and font :white_check_mark:
-2. Adding k-ranking sentiments using VADER  :white_check_mark:
+2. Adding k-ranking sentiments using VADER :white_check_mark:
 3. Adding parallel compute (Very much in the future)
 4. Add support for generative image and video in the future
 5. Create CLI interface or fully functional website :white_check_mark:
@@ -53,6 +53,9 @@ Once we got the audio, video sample as well as the timestamp text (which is in .
 ``` video_generator.py ```
 
 ## How to run it
+
+**Option 1: Local Installation**
+
 There are mainly 6 important scripts within this, each deliberately separated so that it can be easier to include any upgrades in the future (and what not)
 
 ### Pre-requisites:
@@ -62,29 +65,75 @@ There are mainly 6 important scripts within this, each deliberately separated so
 
 Afterwards, just run the script 
 
-``` python server.py```
+```bash
+python server.py
+````
 
-and you are good to go!
+and you are good to go\!
 
 Take note, when turning on the reddit link thread,
 
-![Terminal](images/terminal.png)
-
+![Terminal](about:sanitized)
 
 it will prompt for Groq API Key which can be acquired when you sign up as a Groq member. I will look into integrated other LLMs or creating your own heuristics too in the future :).
 
+**Option 2: Docker Installation (Recommended)**
+
+This project now includes a Dockerfile for easier setup.
+
+### Prerequisites:
+
+1.  Docker installed on your system.
+
+### Steps:
+
+1.  **Clone the Repository:**
+
+    ```bash
+    git clone https://github.com/harvestingmoon/OBrainRot.git
+    cd OBrainRot
+    ```
+
+2.  **Build the Docker Image:**
+
+    ```bash
+    docker build -t obrainrot:latest .
+    ```
+
+3.  **Run the Docker Container:**
+
+    ```bash
+    docker run -it -p 8000:5000 obrainrot:latest /bin/bash
+    ```
+
+    This command will:
+
+      * Run a container in interactive mode (`-it`).
+      * Map port 8000 on your host machine to port 5000 in the container (`-p 8000:5000`).
+      * Start a bash shell inside the container.
+
+4.  **Edit the Reddit Link:**
+    Inside the container's bash shell, navigate to the project directory and edit the Reddit link in `main.py` using a text editor like `nano` or `vim`.
+
+5.  **Run the Script:**
+
+    ```bash
+    python3 main.py
+    ```
+
+    **Note:** Currently, `server.py` is not functioning correctly within the Docker environment.
 
 ## Others:
-### Why is there no requirements.txt? 
-I installed the script on my personal venv so if i were to make a pip it would be very messy (and I am too lazy to do that)  ~ in general just follow the instructs on how to run it above and it should be good
 
 ### Are there any future updates?
+
 So far , yes there are but it is to hopefully create website or gradio to make this more user friendly, and to hopefully create more brain rot videos in the future (i am looking at OpenSora but no plans as of now)
 
-
 ## Thanks:
+
 I would like to thank Motu Hira for creating this tutorial on Forced Alignment using Wav2Vec2. Without this, the subtitles would not be able to work (the original plan was to use CMUSphinx but the lack of community support made it difficult for me to work with)
 
-Here is the original Tutorial if anyone is interested: 
+Here is the original Tutorial if anyone is interested:
 
 [Link](https://pytorch.org/audio/main/tutorials/forced_alignment_tutorial.html)
+

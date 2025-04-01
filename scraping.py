@@ -36,4 +36,3 @@ def save_map_to_txt(map, file_path):
         file.write(f"Title: {map['title']}\n")
         file.write(f"Description: {map['desc']}\n")
     print("SCRAPING DONE! SUCCESSFULLY SAVED")
-
