@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Generator</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            justify-content: center;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center child elements horizontally */
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: normal;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            width: fit-content;
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #8DB600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #7CAF00;
+        }
+        button:active {
+            background-color: #699400;
+        }
+        #video-container {
+            margin-top: 20px;
+        }
+        /* Toggle Switch Styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e9e9eb;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        input:checked + .slider {
+            background-color: #4cd964;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #4cd964;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OpenBrainRot Video Generator</h1>
+        <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" width="400" height="400">
+        <form id="video-form" action="/generate" method="post">
+            <div class="input-container">
+                <label class="switch">
+                    <input type="checkbox" id="reddit-toggle" name="is_reddit_thread">
+                    <span class="slider"></span>
+                </label>
+                <input type="text" id="link-input" name="link" placeholder="Please Insert Link">
+                <button type="submit">Generate Video</button>
+            </div>
+        </form>
+        <div id="video-container"></div>
+    </div>
+    <script>
+        const linkInput = document.getElementById('link-input');
+        const redditToggle = document.getElementById('reddit-toggle');
+        const isRedditThreadInput = document.getElementsByName('is_reddit_thread')[0];
+        const form = document.getElementById('video-form');
+    
+        redditToggle.addEventListener('change', function() {
+            if (this.checked) {
+                linkInput.placeholder = "Please Insert Reddit Thread Link";
+                isRedditThreadInput.value = "true";
+            } else {
+                linkInput.placeholder = "Please Insert Reddit Link";
+                isRedditThreadInput.value = "false";
+            }
+        });
+    
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            generateVideo();
+        });
+    
+        function generateVideo() {
+            const link = linkInput.value;
+            const isRedditNotThread = redditToggle.checked;
+
+            console.log("Sending request to /generate");  // Debug
+            fetch('/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    link: link,
+                    is_reddit_thread: isRedditNotThread
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Received response from /generate", data);  // Debug
+                if (data.video_url) {
+                    alert("Video Generated Successfully!");
+                    const videoContainer = document.getElementById('video-container');
+                    const timestamp = new Date().getTime(); // Cache-busting query parameter
+                    videoContainer.innerHTML = `<video width="640" height="360" controls>
+                                                    <source src="${data.video_url}?t=${timestamp}" type="video/mp4">
+                                                    Your browser does not support the video tag.
+                                                </video>`;
+                } else {
+                    alert("Video generation failed: " + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

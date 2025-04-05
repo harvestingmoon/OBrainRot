@@ -1,0 +1,3 @@
+- Create readme for this
+- create future updates for my code
+- settele the requirements.txt (sort this out too)
