@@ -1,17 +1,19 @@
 from scraping import *
 from audio import * 
 from force_alignment import * 
-from dict import * 
+#from dict import * 
 from video_generator import * 
 from search import *
 import os
 from dotenv import load_dotenv
+from dict import *
+from image_overlay import *
 load_dotenv()
 
 
 def main(reddit_url, llm  = False, scraped_url = 'texts/scraped_url.txt', output_pre = 'texts/processed_output.txt', \
           final_output = 'texts/oof.txt',speech_final = 'audio/output_converted.wav', subtitle_path = 'texts/testing.ass', \
-            output_path = 'final/final.mp4',speaker_wav="assets/default.mp3", video_path = 'assets/subway.mp4'):
+            output_path_before_overlay = 'final/before_overlay.mp4', output_path = "final/final.mp4",speaker_wav="assets/spongebob.mp3", video_path = 'assets/subway.mp4'):
     print("L1: SCRAPING RIGHT NOW")
     if not llm:
         map_request = scrape(reddit_url)
@@ -48,15 +50,6 @@ def main(reddit_url, llm  = False, scraped_url = 'texts/scraped_url.txt', output
     for (i, word) in enumerate(word_segments):
         timing_list.append((display_segment(bundle, trellis, word_segments, waveform, i)))
     
-    # To do:
-    # we should get the word_segments , then find a way to align both the word_segments and original text together
-    # subsequently, this will allow us to rotate between sentences of both the actual word and pre_cleaned word.
-    # idea: {pre_text_word: corresponding sentence } <= downside is it will be computaitonally hard. Could we use a Trie too?
-    # possibility: to implement word segmentation into this
-    
-
-    ## generation of text for timing (writing it into the .txt)
-
     with open("testing.txt", "w") as file:
         for item in timing_list:
             word, start_time, end_time = item
@@ -67,8 +60,17 @@ def main(reddit_url, llm  = False, scraped_url = 'texts/scraped_url.txt', output
     convert_timing_to_ass(timing_list, subtitle_path)
 
     ## Finally, we need to generate the brain rot video tself
-    add_subtitles_and_overlay_audio(video_path,speech_final, subtitle_path, output_path)
+    add_subtitles_and_overlay_audio(video_path,speech_final, subtitle_path, output_path_before_overlay)
+
+
+    ## NEW STEP: Adding image figures to bottom left of the image
+    
+    print("L5: IMAGE OVERLAY!!")
+    overlay_images_on_video(output_path_before_overlay, "assets/spongebob", output_path, "texts/image_overlay.txt", timing_list)
+    
+
     print("DONE! SAVED AT " + output_path)
 
 if __name__ == "__main__":
-    main("https://www.reddit.com/r/confession/comments/1ja2f08/i_am_exploiting_my_employer_and_i_have_never_been/", llm = False)
+    #main("https://www.reddit.com/r/SGExams/comments/1jsppbv/help_ns_rls/", llm = False)
+    main("https://www.reddit.com/r/projectmanagement/comments/194jaq5/simplify_project_management/")

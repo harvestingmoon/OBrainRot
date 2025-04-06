@@ -10,3 +10,5 @@ accelerate
 celery
 redis
 dotenv
+moviepy
+imageclip

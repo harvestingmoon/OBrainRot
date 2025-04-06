@@ -12,11 +12,6 @@ def remove_punctuation(text):
 
     return text_without_punctuation
 
-def split_text_into_words(text):
-    # Split the text into words
-    words = text.split()
-
-    return words
 
 
 # This is necessary as it aids in force alignment
@@ -32,18 +27,32 @@ def process_text(input_filename, output_filename):
         # Read the input text from the file
         with open(input_filename, 'r', encoding = 'utf-8') as input_file:
             text = input_file.read()
+        print(text)
+        mapping_array = []
+        sentences = re.split(r'[.\n]+', text)
+
+        for sentence in sentences:
+           split_word = sentence.split(" ")
+           for word in split_word:
+               if word == "" or word == " ":
+                   continue
+               mapping_array.append([word, sentence])
+        
 
         # Remove punctuation
-        text_without_punctuation = remove_punctuation(text)
+        for arr in mapping_array:
+            arr[0] = remove_punctuation(arr[0])
 
-        # Split the text into words
-        words = split_text_into_words(text_without_punctuation)
 
+        # this portion is necessary for writing the text
         # Write each word to the output file
         with open(output_filename, 'w') as output_file:
-            for word in words:
-                word = clean_text(word)
-                output_file.write(word.upper() + '\n')
+            with open("texts/image_overlay.txt", "w") as test_file:
+                for arr in mapping_array:
+                    arr[0] = clean_text(arr[0])
+                    output_file.write(arr[0].upper() + '\n')
+                    test_file.write(arr[1] + '\n')
+        
 
         print(f"Output written to {output_filename} successfully.")
 
@@ -108,10 +117,6 @@ def process_text_section2(input_file_path, output_file_path):
             processed_words.append(sub_word.upper())
 
 
-    
-
-    # Let us see if this would actually properly work
-    # Write each word on a new space (for the transcription to be done later)
     with open(output_file_path, 'w', encoding='utf-8') as file:
         for word in processed_words:
             v = ''
