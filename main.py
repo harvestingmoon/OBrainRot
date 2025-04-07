@@ -11,9 +11,11 @@ from image_overlay import *
 load_dotenv()
 
 
+asset_name = "trump" #either trump, lebron, spongebob or griffin
+
 def main(reddit_url, llm  = False, scraped_url = 'texts/scraped_url.txt', output_pre = 'texts/processed_output.txt', \
           final_output = 'texts/oof.txt',speech_final = 'audio/output_converted.wav', subtitle_path = 'texts/testing.ass', \
-            output_path_before_overlay = 'final/before_overlay.mp4', output_path = "final/final.mp4",speaker_wav="assets/spongebob.mp3", video_path = 'assets/subway.mp4'):
+            output_path_before_overlay = 'final/before_overlay.mp4', output_path = "final/final.mp4",speaker_wav=f"assets/{asset_name}.mp3", video_path = 'assets/subway.mp4'):
     print("L1: SCRAPING RIGHT NOW")
     if not llm:
         map_request = scrape(reddit_url)
@@ -66,11 +68,11 @@ def main(reddit_url, llm  = False, scraped_url = 'texts/scraped_url.txt', output
     ## NEW STEP: Adding image figures to bottom left of the image
     
     print("L5: IMAGE OVERLAY!!")
-    overlay_images_on_video(output_path_before_overlay, "assets/spongebob", output_path, "texts/image_overlay.txt", timing_list)
+    overlay_images_on_video(output_path_before_overlay, f"assets/{asset_name}", output_path, "texts/image_overlay.txt", timing_list)
     
 
     print("DONE! SAVED AT " + output_path)
 
-if __name__ == "__main__":
-    #main("https://www.reddit.com/r/SGExams/comments/1jsppbv/help_ns_rls/", llm = False)
-    main("https://www.reddit.com/r/projectmanagement/comments/194jaq5/simplify_project_management/")
+# if __name__ == "__main__":
+    
+#     main("https://www.reddit.com/r/confessions/comments/1jt63ey/i_pooped_during_my_run_yesterday/")
