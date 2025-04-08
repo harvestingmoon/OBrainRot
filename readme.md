@@ -89,7 +89,7 @@ This is a new algorithm that basically imposes images on the video feed. So for 
 
 **Option 1: Local Installation**
 
-There are mainly 6 important scripts within this, each deliberately separated so that it can be easier to include any upgrades in the future (and what not)
+All are important scripts within this, each deliberately separated so that it can be easier to include any upgrades in the future (and what not)
 
 ### Pre-requisites:
 1. PyTorch (with CUDA 12.4)
