@@ -2,29 +2,59 @@
 ![Logo](images/logo.jpg) 
 <Created with Imagen 3>
 
-# Updates:
-Thank you everyone for the support so far albeit the r/learnmachinelearning && r/machinelearning community! In short here are some future updates I would be doing overtime
-1. Readjusting the text and font :white_check_mark:
-2. Adding k-ranking sentiments using VADER :white_check_mark:
-3. Adding parallel compute (Very much in the future)
-4. Add support for generative image and video in the future
-5. Create CLI interface or fully functional website :white_check_mark:
-6. Update readme for LLM scraping feature! :white_check_mark:
-
-
-## New Updates!!:
-
-### UI Interface has finally been created!
-![UI Interface](images/ui.png)
-
-To facilitate and make things easier to create videos, I have created a web interface to make things easier. 
 
 ### So i got extremely bored over the holidays and decided to just make a fun project to see if its possible to automate the kind of content i was seeing on TikTok
 
 ## A simple brain rot generator just by inserting your reddit url
 
+### UI Interface
+![UI Interface](images/ui.png)
+
+To facilitate and make things easier to create videos, I have created a web interface.
+
+
 ## Example
 [![Watch the video](images/thumbnail.png)](https://youtube.com/shorts/CRhbay8YvBg)
+
+
+## Features
+
+### Custom Image and Audio Assets:
+
+**Image Overlays:**
+
+To add your own image overlays, follow these steps:
+
+1.  Create a new folder inside the `assets/` directory. Choose a descriptive name for your folder (e.g., `my_overlays`).
+
+2.  Place your image files into this new folder. For optimal display, aim for images around 512 x 512 pixels in size. Common image formats like PNG and JPG are supported.
+
+3.  Open the `main.py` file.
+
+4.  Locate the `asset_name` variable.
+
+5.  Replace the existing value of `asset_name` with the name of the folder you created in step 1 (e.g., if your folder is `my_overlays`, set `asset_name = "my_overlays"`).
+
+**Audio Samples:**
+
+To use custom audio samples:
+
+1.  Place your audio files directly into the `assets/` directory. Common audio formats like MP3 and WAV are likely supported.
+
+2.  Open the `main.py` file.
+
+3.  Locate the relevant audio configuration (the specific variable name might vary depending on your code).
+
+4.  Update the audio configuration to point to your audio file name.
+
+**Pre-loaded Assets:**
+
+For your convenience, four "brain rot" character images are already included in the `assets/` directory. You can use these directly by setting the `asset_name` in `main.py` to one of the following (case-sensitive):
+
+* `trump`
+* `spongebob`
+* `lebron`
+* `griffin`
 
 
 ## How it works 
@@ -48,7 +78,10 @@ Removal of certain punctuations, special characters via RegEx before we carry ou
 The most important step to generate the video was the alignment between audio and text in order to get the subtitle. This was achieved using forced alignment. In this, we used wav2vec2 and base it all on Motu Hira's tutorial on Forced alignment with Wav2Vec2. It uses a frame-wise label probality from the audio (that is the voice that we generated), creates a trellis matrix representing the probability of labels aligned per time step before using the most likely path from the trellis matrix.
 
 ### ffpmeg Magic:
-Once we got the audio, video sample as well as the timestamp text (which is in .ass format btw), we can then generate the video using some simple ffmpeg magic. This subprocess can be viewed under
+Once we got the audio, video sample as well as the timestamp text (which is in .ass format btw), we can then generate the video using some simple ffmpeg magic. 
+
+### Image Overlay
+This is a new algorithm that basically imposes images on the video feed. So for every sentence that was spoken, it would then feed another image. The algorithm used was suprisingly more complex as it looks, involving aligning with time stamp and knowing when to switch between each new sentence structure.
 
 ``` video_generator.py ```
 
@@ -73,7 +106,6 @@ and you are good to go\!
 
 Take note, when turning on the reddit link thread,
 
-![Terminal](about:sanitized)
 
 it will prompt for Groq API Key which can be acquired when you sign up as a Groq member. I will look into integrated other LLMs or creating your own heuristics too in the future :).
 
