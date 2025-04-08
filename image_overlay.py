@@ -115,11 +115,3 @@ def overlay_images_on_video(video_path, image_folder, output_path, text_path, ti
     except Exception as e:
         print(f"An error occurred: {e}")
 
-# if __name__ == "__main__":
-#     video_filepath = "final.mp4"  
-#     image_directory = "../assets/griffin"  
-#     output_filepath = "output_with_overlays.mp4"
-#     text_path = "../texts/test.txt"
-#     timing_path = "../texts/testing.txt"
-
-#     overlay_images_on_video(video_filepath, image_directory, output_filepath,text_path, timing_path )
